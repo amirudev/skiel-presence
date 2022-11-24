@@ -52,15 +52,15 @@ if(!isset($_POST['add_user'])) {
             $inserted_id_user = $db->lastInsertId();
 
             if ($saved) {
-                $_SESSION['user'] = array(
-                    'id' => $inserted_id_user,
+                $_SESSION['special']['account-creation']['success'] = array(
                     'name' => $name,
                     'username' => $username,
                     'email' => $email,
                     'role' => $role,
+                    'password' => $password,
                 );
-    
-                header("Location: ../index.php");
+                
+                $_SESSION['message']['success'] = "Berhasil menambahkan pengguna guru ke database, anda menjadi penanggungjawab pendaftaran ini";
             } else {
                 if ($role == 'teacher') {
                     $query_emergency = "DELETE FROM teacher WHERE id = :inserted_id";
@@ -76,14 +76,14 @@ if(!isset($_POST['add_user'])) {
                 );
                 $saved = $stmt_emergency->execute($params_emergency);
 
-                $_SESSION['message']['danger'] = "Error: Fail saving personal information, this might be internal error, please call developer";
+                $_SESSION['message']['danger'] = "Error: Fail saving personal information, this might be internal error, please contact developer for further information";
             }
         } catch (Exception $e) {
             var_dump($e->getMessage());
         }
     } else {
-        $_SESSION['message']['danger'] = "Error: Fail saving personal information, this might be internal error, please call developer";
+        $_SESSION['message']['danger'] = "Error: Fail saving personal information, this might be internal error, please contact developer for further information";
     }
 }
 
-header("Location: ../signup.php");
+header("Location: ../admin/pages/subject.php");

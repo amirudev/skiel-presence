@@ -18,7 +18,6 @@ if(!isset($_POST['signin'])) {
     try {
         $saved = $stmt_username->execute($params_username);
     } catch (Exception $e) {
-        var_dump($stmt_username);
         var_dump($e->getMessage());
         die();
     }
@@ -38,7 +37,6 @@ if(!isset($_POST['signin'])) {
             try {
                 $saved = $stmt_phone->execute($params_phone);
             } catch (Exception $e) {
-                var_dump($stmt_phone);
                 var_dump($e->getMessage());
                 die();
             }
@@ -78,7 +76,6 @@ if(!isset($_POST['signin'])) {
                 $saved = $stmt_personal->execute($params_personal);
 
             } catch (Exception $e) {
-                var_dump($stmt_personal);
                 var_dump($e->getMessage());
                 die();
             }

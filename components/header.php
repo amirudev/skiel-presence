@@ -20,10 +20,10 @@ $params_presence = array(
     ":this_day" => date("Y-m-d 00:00:00"),
 );
 
+
 try {
     $saved = $stmt_presence->execute($params_presence);
 } catch (Exception $e) {
-    var_dump($stmt_presence);
     var_dump($e->getMessage());
     die();
 }
@@ -50,7 +50,6 @@ if ($saved) {
                     $_SESSION['message']['user']['success']['presence-in'] = true;
                 }
             } catch (Exception $e) {
-                var_dump($stmt_presence);
                 var_dump($e->getMessage());
                 die();
             }
@@ -73,7 +72,6 @@ if ($saved) {
                     $_SESSION['message']['user']['success']['presence-out'] = true;
                 }
             } catch (Exception $e) {
-                var_dump($stmt_presence);
                 var_dump($e->getMessage());
                 die();
             }

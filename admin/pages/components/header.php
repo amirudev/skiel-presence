@@ -136,6 +136,13 @@ if (isset($urls[3])) {
                 </a>
               </li>
 
+              <li class="sidebar-item">
+                <a href="../../../db/signout.php" class="sidebar-link">
+                  <i class="bi bi-grid-fill"></i>
+                  <span>Keluar</span>
+                </a>
+              </li>
+
               <!-- <li class="sidebar-item has-sub">
                 <a href="#" class="sidebar-link">
                   <i class="bi bi-stack"></i>

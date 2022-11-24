@@ -23,6 +23,12 @@ if (isset($_SESSION['user'])) {
     
     <main class="form-signin w-100 m-auto">
       <form style="width: 350px;" class="mx-auto my-5 py-5" action="../db/signin.php" method="POST">
+      <?php
+          if (isset($_SESSION['message']['danger'])) {
+              echo '<div class="alert alert-danger" role="alert">'.$_SESSION['message']['danger'].'</div>';
+              unset($_SESSION['message']['danger']);
+          }
+          ?>
         <img class="mb-4" src="../assets/images/logo-sekolah.png" style="width: 90px">
         <h1 class="h3 mb-3 fw-normal">Masuk Aplikasi</h1>
           <input type="text" name="signin" value="1" hidden>

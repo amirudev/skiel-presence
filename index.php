@@ -3,8 +3,9 @@
 <body class="bg-light">
     <div class="content px-3 mb-5 pb-5">
         <?php
-        $todaydate = date('Y-m-d H:i:s');
-        $query_presence = "SELECT * FROM presence_user INNER JOIN user ON presence_user.user_id = user.id  INNER JOIN teacher ON user.teacher_id = teacher.id WHERE presence_user.created_at > '$todaydate 00:00:00'";
+        $todaydate = date('Y-m-d');
+        $userid = $_SESSION['user']['id'];
+        $query_presence = "SELECT * FROM presence_user INNER JOIN user ON presence_user.user_id = user.id  INNER JOIN teacher ON user.teacher_id = teacher.id WHERE presence_user.created_at > '$todaydate 00:00:00' AND presence_user.user_id = $userid";
         $stmt_presence = $db->prepare($query_presence);
         $stmt_presence->execute();
         $result_presence = $stmt_presence->fetchAll(PDO::FETCH_ASSOC);
@@ -165,15 +166,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="col-md-4 col-12">
-                        <button
-                          id="success"
-                          class="btn btn-outline-success btn-lg btn-block"
-                        >
-                          Success
-                        </button>
-                      </div>
         </div>
     </div>
     

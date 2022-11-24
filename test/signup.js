@@ -9,7 +9,7 @@ if (!url) {
 (async () => {
   const browser = await puppeteer.launch({headless: false});
   const page = await browser.newPage();
-  let startURL = `${url}/pages/signup.php?_ijt=${tokenJetbrains}`;
+  let startURL = `${url}signup.php?_ijt=${tokenJetbrains}`;
   await page.goto(startURL);
   
   try {

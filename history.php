@@ -15,15 +15,7 @@
     <div class="content px-3 mb-5 pb-5">
         <ul class="nav nav-tabs nav-pills mb-3" id="pills-tab" role="tablist">
             <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
-                <div class="d-flex flex-column align-items-start" style="max-width: 100px">
-                    <i class="fa-solid fa-chalkboard-user mb-2"></i>
-                    <p class="text-start">Riwayat Kelas</p>
-                </div>
-              </button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
+              <button class="nav-link active" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
                 <div class="d-flex flex-column align-items-start" style="max-width: 100px">
                     <i class="fa-solid fa-clock mb-2"></i>
                     <p class="text-start">Riwayat Presensi</p>
@@ -38,35 +30,7 @@
             </li> -->
         </ul>
         <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
-                <div>
-                    <h5 class="mb-3 fs-6 fw-bold my-3">Riwayat Kelas</h5>
-                    <ul class="timeline">
-                        <li class="event">
-                            <div class="px-4 py-3">
-                                <p class="fw-bold mb-1">08.00 - 10.00</p>
-                                <p class="mb-1">Kelas X Kimia 2 / Ruang Teori 16 / Bahasa Indonesia / Bu Yani Handayani M, Pd.</p>
-                            </div>
-                        </li>
-                        <li class="event bg-red-light">
-                            <div class="px-4 py-3">
-                                <p class="fw-bold mb-1">08.00 - 10.00</p>
-                                <p class="mb-1">Kelas X Kimia 2 / Ruang Teori 16 / Bahasa Indonesia / Bu Yani Handayani M, Pd.</p>
-                                <div class="d-flex justify-content-end">
-                                    <button class="btn btn-danger btn-sm">Konfirmasi</button>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="event">
-                            <div class="px-4 py-3">
-                                <p class="fw-bold mb-1">08.00 - 10.00</p>
-                                <p class="mb-1">Kelas X Kimia 2 / Ruang Teori 16 / Bahasa Indonesia / Bu Yani Handayani M, Pd.</p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+            <div class="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
                 <div>
 					<?php
                     $query_presence = "SELECT * FROM presence_user INNER JOIN user ON presence_user.user_id = user.id  INNER JOIN teacher ON user.teacher_id = teacher.id ORDER BY presence_user.updated_at DESC LIMIT 25";

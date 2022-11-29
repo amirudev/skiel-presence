@@ -1,5 +1,6 @@
 <?php include './components/header.php' ?>
 
+<link rel="stylesheet" href="assets/calendar/simple-calendar.css">
 <body class="bg-light">
     <div class="content px-3 mb-5 pb-5">
         <div class="card border-0 bg-green-dark text-white mb-2">
@@ -12,63 +13,41 @@
             <div id="content" class="page-subject">
                 <h5 class="mb-3 fs-6 fw-bold my-3">Jadwal Pelajaran Hari Ini</h5>
                 <ul class="timeline">
-                    <li class="event p-3 pt-5" data-date="08.00 - 10.00">
-                        <h3>Kelas X Kimia 2</h3>
-                        <div>
-                            <div class="d-flex align-items-center mb-1">
-                                <i class="fas fa-classroom-user me-2"></i>
-                                Ruang Teori 16
+                    <?php
+                    $userid = $_SESSION['user']['id'];
+                    $day = date('w');
+                    if ($isdev) {
+                        $currentdatetime = $devtime;
+                    } else {
+                        $currentdatetime = date('Y-m-d H:i:s');
+                    }
+                    $querydate = date('w', strtotime($currentdatetime));
+
+                    $query_schedule = "SELECT class.name AS class, class.room AS room, teacher.name AS teacher, subjects.name AS subject, schedule.timestart, schedule.timeend FROM schedule INNER JOIN teacher_subject ON schedule.teacher_subject_id = teacher_subject.id INNER JOIN teacher ON teacher.id = teacher_subject.teacher_id INNER JOIN user ON user.teacher_id = teacher.id INNER JOIN class ON schedule.class_id = class.id INNER JOIN subjects ON subjects.id = teacher_subject.subject_id WHERE schedule.day = '$querydate' AND user.id = $userid";
+                    $stmt_schedule = $db->prepare($query_schedule);
+                    $stmt_schedule->execute();
+                    $result_schedule = $stmt_schedule->fetchAll(PDO::FETCH_ASSOC);
+                    $rowcount = $stmt_schedule->rowCount();
+
+                    foreach ($result_schedule as $rs): ?>
+                        <li class="event p-3 pt-5" data-date="<?php echo $rs['timestart'] ?> - <?php echo $rs['timeend'] ?>">
+                            <h3>Kelas <?php echo $rs['class'] ?></h3>
+                            <div>
+                                <div class="d-flex align-items-center mb-1">
+                                    <i class="fas fa-classroom-user me-2"></i>
+                        Ruang <?php echo $rs['room'] ?>
+                        </div>
+                                <div class="d-flex align-items-center mb-1">
+                                    <i class="fas fa-classroom-user me-2"></i>
+                                    <?php echo $rs['subject'] ?> - <?php echo $rs['teacher'] ?>
+                                </div>
                             </div>
-                            <div class="d-flex align-items-center mb-1">
-                                <i class="fas fa-classroom-user me-2"></i>
-                                Bahasa Indonesia - Bu Yani Handayani M, Pd.
+                            <div class="d-flex flex-wrap justify-content-end mt-2">
+                                <button class="btn btn-success ms-1 mb-1">Ketua Kelas</button>
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A voluptatum atque enim reiciendis cumque ullam eaque quasi optio, hic architecto officiis fugiat deserunt, veniam at itaque temporibus aliquam alias ratione.
-                        </div>
-                        <div class="d-flex flex-wrap justify-content-end mt-2">
-                            <button class="btn btn-success ms-1 mb-1">Ketua Kelas</button>
-                        </div>
-                    </li>
-                    <li class="event p-3 pt-5" data-date="08.00 - 10.00">
-                        <h3>Kelas X Kimia 2</h3>
-                        <div>
-                            <div class="d-flex align-items-center mb-1">
-                                <i class="fas fa-classroom-user me-2"></i>
-                                Ruang Teori 16
-                            </div>
-                            <div class="d-flex align-items-center mb-1">
-                                <i class="fas fa-classroom-user me-2"></i>
-                                Bahasa Indonesia - Bu Yani Handayani M, Pd.
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A voluptatum atque enim reiciendis cumque ullam eaque quasi optio, hic architecto officiis fugiat deserunt, veniam at itaque temporibus aliquam alias ratione.
-                        </div>
-                        <div class="d-flex flex-wrap justify-content-end mt-2">
-                            <button class="btn btn-success ms-1 mb-1">Ketua Kelas</button>
-                        </div>
-                    </li>
-                    <li class="event p-3 pt-5" data-date="08.00 - 10.00">
-                        <h3>Kelas X Kimia 2</h3>
-                        <div>
-                            <div class="d-flex align-items-center mb-1">
-                                <i class="fas fa-classroom-user me-2"></i>
-                                Ruang Teori 16
-                            </div>
-                            <div class="d-flex align-items-center mb-1">
-                                <i class="fas fa-classroom-user me-2"></i>
-                                Bahasa Indonesia - Bu Yani Handayani M, Pd.
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A voluptatum atque enim reiciendis cumque ullam eaque quasi optio, hic architecto officiis fugiat deserunt, veniam at itaque temporibus aliquam alias ratione.
-                        </div>
-                        <div class="d-flex flex-wrap justify-content-end mt-2">
-                            <button class="btn btn-success ms-1 mb-1">Ketua Kelas</button>
-                        </div>
-                    </li>
+                        </li>
+                    <?php endforeach;
+                        ?>
                 </ul>
             </div>
         </div>
@@ -107,24 +86,24 @@
             fixedStartDay: 0, // begin weeks by sunday
             disableEmptyDetails: true,
             events: [
-                // generate new event after tomorrow for one hour
-                {
-                startDate: new Date(new Date().setHours(new Date().getHours() + 24)).toDateString(),
-                endDate: new Date(new Date().setHours(new Date().getHours() + 25)).toISOString(),
-                summary: 'Visit of the Eiffel Tower'
-                },
-                // generate new event for yesterday at noon
-                {
-                startDate: new Date(new Date().setHours(new Date().getHours() - new Date().getHours() - 12, 0)).toISOString(),
-                endDate: new Date(new Date().setHours(new Date().getHours() - new Date().getHours() - 11)).getTime(),
-                summary: 'Restaurant'
-                },
-                // generate new event for the last two days
-                {
-                startDate: new Date(new Date().setHours(new Date().getHours() - 48)).toISOString(),
-                endDate: new Date(new Date().setHours(new Date().getHours() - 24)).getTime(),
-                summary: 'Visit of the Louvre'
-                }
+                // // generate new event after tomorrow for one hour
+                // {
+                // startDate: new Date(new Date().setHours(new Date().getHours() + 24)).toDateString(),
+                // endDate: new Date(new Date().setHours(new Date().getHours() + 25)).toISOString(),
+                // summary: 'Visit of the Eiffel Tower'
+                // },
+                // // generate new event for yesterday at noon
+                // {
+                // startDate: new Date(new Date().setHours(new Date().getHours() - new Date().getHours() - 12, 0)).toISOString(),
+                // endDate: new Date(new Date().setHours(new Date().getHours() - new Date().getHours() - 11)).getTime(),
+                // summary: 'Restaurant'
+                // },
+                // // generate new event for the last two days
+                // {
+                // startDate: new Date(new Date().setHours(new Date().getHours() - 48)).toISOString(),
+                // endDate: new Date(new Date().setHours(new Date().getHours() - 24)).getTime(),
+                // summary: 'Visit of the Louvre'
+                // }
             ],
 
             });

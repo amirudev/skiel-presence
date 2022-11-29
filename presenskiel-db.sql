@@ -104,6 +104,7 @@ INSERT INTO `student` (`id`, `name`, `role`, `created_at`, `updated_at`) VALUES
 CREATE TABLE `class` (
                         `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
                         `name` VARCHAR(50),
+                        `room` VARCHAR(50),
                         `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                         `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -231,6 +232,7 @@ CREATE TABLE `teacher_subject` (
 CREATE TABLE `schedule` (
                         `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
                         `teacher_subject_id` INT(11) NOT NULL,
+                        `class_id` INT(11) NOT NULL,
                         `day` INT(1) NOT NULL,
                         `timestart` TIME NOT NULL,
                         `timeend` TIME NOT NULL,

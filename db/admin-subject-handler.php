@@ -1,9 +1,7 @@
 <?php
 require_once './config.php';
 
-if(!isset($_POST['add_user'])) {
-    $_SESSION['message']['danger'] = "Error: Request not allowed";
-} else {
+if(isset($_POST['add_user'])) {
     $username = htmlspecialchars($_POST['username']);
     $name = htmlspecialchars($_POST['name']);
     $email = htmlspecialchars($_POST['email']);
@@ -84,6 +82,83 @@ if(!isset($_POST['add_user'])) {
     } else {
         $_SESSION['message']['danger'] = "Error: Fail saving personal information, this might be internal error, please contact developer for further information";
     }
+} else if (isset($_POST['add_subject'])) {
+    $name = htmlspecialchars($_POST['name']);
+    $query_subject = "INSERT INTO subjects (name) VALUES (:name)";
+    $params_subject = array(
+        ":name" => $name,
+    );
+
+    $stmt_subject = $db->prepare($query_subject);
+    $saved_subject = $stmt_subject->execute($params_subject);
+
+    if ($saved_subject) {
+        $_SESSION['message']['success'] = "Berhasil menambahkan mata pelajaran $subject";
+    } else {
+        $_SESSION['message']['danger'] = "Gagal menambahkan mata pelajaran $subject";
+    }
+} else if (isset($_POST['add_teacher_subject'])) {
+    $teacher = htmlspecialchars($_POST['teacher']);
+    $subject = htmlspecialchars($_POST['subject']);
+
+    $query_subject = "INSERT INTO teacher_subject (teacher_id, subject_id) VALUES (:teacher_id, :subject_id)";
+    $params_subject = array(
+        ":teacher_id" => $teacher,
+        ":subject_id" => $subject,
+    );
+
+    $stmt_subject = $db->prepare($query_subject);
+    $saved_subject = $stmt_subject->execute($params_subject);
+
+    if ($saved_subject) {
+        $_SESSION['message']['success'] = "Berhasil menambahkan relasi mata pelajaran dengan guru";
+    } else {
+        $_SESSION['message']['danger'] = "Gagal menambahkan mata pelajaran dengan guru";
+    }
+} else if (isset($_POST['add_class'])) {
+    $name = htmlspecialchars($_POST['name']);
+    $room = htmlspecialchars($_POST['room']);
+
+    $query_subject = "INSERT INTO class (name, room) VALUES (:name, :room)";
+    $params_subject = array(
+        ":name" => $name,
+        ":room" => $room,
+    );
+
+    $stmt_subject = $db->prepare($query_subject);
+    $saved_subject = $stmt_subject->execute($params_subject);
+
+    if ($saved_subject) {
+        $_SESSION['message']['success'] = "Berhasil menambahkan kelas baru $name";
+    } else {
+        $_SESSION['message']['danger'] = "Gagal menambahkan kelas baru $name";
+    }
+} else if (isset($_POST['add_schedule'])) {
+    $teacher_schedule = htmlspecialchars($_POST['teacher_subject']);
+    $class = htmlspecialchars($_POST['class']);
+    $day = htmlspecialchars($_POST['day']);
+    $timestart = htmlspecialchars($_POST['timestart']);
+    $timeend = htmlspecialchars($_POST['timeend']);
+
+    $query_schedule = "INSERT INTO schedule (teacher_subject_id, class_id, day, timestart, timeend) VALUES (:teacher_subject_id, :class_id, :day, :timestart, :timeend)";
+    $params_schedule = array(
+        ":teacher_subject_id" => $teacher_schedule,
+        ":class_id" => $class,
+        ":day" => $day,
+        ":timestart" => $timestart,
+        ":timeend" => $timeend,
+    );
+
+    $stmt_schedule = $db->prepare($query_schedule);
+    $saved_schedule = $stmt_schedule->execute($params_schedule);
+
+    if ($saved_schedule) {
+        $_SESSION['message']['success'] = "Berhasil menambahkan kelas baru $name";
+    } else {
+        $_SESSION['message']['danger'] = "Gagal menambahkan kelas baru $name";
+    }
+} else {
+    $_SESSION['message']['danger'] = "Problem occured on backend handler";
 }
 
 header("Location: ../admin/pages/subject.php");

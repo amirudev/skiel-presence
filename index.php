@@ -30,6 +30,23 @@
                     </div>
                 </div>
                 <hr>
+                <div>
+                    <div>
+                        <?php if ($result_presence[0]['timeend'] != null) { ?>
+                            Presensi hari ini sudah lengkap ( Masuk dan Keluar berhasil )
+                        <?php } else if ($result_presence[0]['timeend'] != null) { ?>
+                            Presensi masuk berhasil, kembali ke aplikasi pukul 15.00 untuk presensi keluar
+                        <?php } else { ?>
+                            Silahkan kembali pukul 7.00 untuk presensi masuk
+                        <?php } ?>
+                    </div>
+
+                    <div>
+                        <?php if ($isdev) { ?>
+                            Mode Development, waktu development : <?php echo $devtime ?>
+                        <?php } ?>
+                    </div>
+                </div>
                 <!-- <div class="d-flex justify-content-between">
                     <div class="d-flex align-items-center">
                         <i class="fas fa-chevron-down me-2"></i>
@@ -97,75 +114,109 @@
         <div>
             <h5 class="mb-3 fs-6 fw-bold my-3">Kelas Sedang Berlangsung</h5>
             <div>
+                <?php
+                $userid = $_SESSION['user']['id'];
+                $day = date('w');
+                if ($isdev) {
+                    $currentdatetime = $devtime;
+                } else {
+                    $currentdatetime = date('Y-m-d H:i:s');
+                }
+
+                $currenttime = date("H:i:s", strtotime($currentdatetime));
+
+                $querydate = date('w', strtotime($currentdatetime));
+                $query_schedule = "SELECT class.name AS class, class.room AS room, teacher.name AS teacher, subjects.name AS subject, schedule.timestart, schedule.timeend FROM schedule INNER JOIN teacher_subject ON schedule.teacher_subject_id = teacher_subject.id INNER JOIN teacher ON teacher.id = teacher_subject.teacher_id INNER JOIN user ON user.teacher_id = teacher.id INNER JOIN class ON schedule.class_id = class.id INNER JOIN subjects ON subjects.id = teacher_subject.subject_id WHERE schedule.day = '1' AND schedule.timestart <= '$currenttime' AND schedule.timeend >= '$currenttime' AND user.id = 1";
+                $stmt_schedule = $db->prepare($query_schedule);
+                $stmt_schedule->execute();
+                $result_schedule = $stmt_schedule->fetchAll(PDO::FETCH_ASSOC);
+                $rowcount = $stmt_schedule->rowCount();
+
+                foreach ($result_schedule as $rs): ?>
+                    <div class="card border-0 w-full mb-2 text-bg-success">
+                        <div class="d-flex">
+                            <div class="d-flex align-items-center p-4">
+                                <p><?php echo $rs['timestart'] ?></p>
+                            </div>
+                            <div class="vr"></div>
+                            <div class="p-3 w-100">
+                                <div class="mb-3">
+                                    <p class="mb-2 fw-bold"><?php echo $rs['class'] ?></p>
+                                    <div class="d-flex align-items-center mb-1">
+                                        <i class="fas fa-clock me-3"></i>
+                                        <p><?php echo $rs['timestart'] ?> - <?php echo $rs['timeend'] ?></p>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-1">
+                                        <i class="fas fa-chalkboard-user me-3"></i>
+                                        <p>Ruang <?php echo $rs['room'] ?></p>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-1">
+                                        <i class="fas fa-graduation-cap me-3"></i>
+                                        <p><?php echo $rs['subject'] ?></p>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end flex-wrap">
+                                    <button class="btn btn-white btn-sm d-flex align-items-center rounded-pill bg-green-dark text-white mb-1 me-1">
+                                        <i class="fas fa-out me-2"></i>
+                                        <p>Beri Pengingat Tugas</p>
+                                    </button>
+                                    <button class="btn btn-white btn-sm d-flex align-items-center rounded-pill bg-green-dark text-white mb-1 me-1">
+                                        <i class="fas fa-out me-2"></i>
+                                        <p>Hubungi Ketua Kelas</p>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+
+            </div>
+        </div>
+
+        <div class="card border-0 bg-green-dark p-3 mb-2">
+            <h5 class="mb-3 text-white fs-6">Presensi Kemarin</h5>
+            <?php
+            $todaydatedate = date('Y-m-d');
+            $yesterdaydate = date('Y-m-d', strtotime($currentdatetime . "-1 day"));
+            $userid = $_SESSION['user']['id'];
+            $query_presence = "SELECT presence_user.timestart, presence_user.timeend FROM presence_user INNER JOIN user ON presence_user.user_id = user.id WHERE presence_user.created_at > '$yesterdaydate 00:00:00' AND presence_user.created_at < '$todaydate 00:00:00' AND presence_user.user_id = $userid";
+            $stmt_presence = $db->prepare($query_presence);
+            $stmt_presence->execute();
+            $result_presence = $stmt_presence->fetchAll(PDO::FETCH_ASSOC);
+            $rowcount = $stmt_presence->rowCount();
+
+            foreach ($result_presence as $rs): ?>
                 <div class="card border-0 w-full mb-2 text-bg-success">
                     <div class="d-flex">
                         <div class="d-flex align-items-center p-4">
-                            <p>8.00</p>
+                            <p><?php echo date("H:i:s", strtotime($rs['timestart'])) ?></p>
                         </div>
                         <div class="vr"></div>
-                        <div class="p-3 w-100">
-                            <div class="mb-3">
-                                <p class="mb-2 fw-bold">X Kimia 4</p>
-                                <div class="d-flex align-items-center mb-1">
-                                    <i class="fas fa-clock me-3"></i>
-                                    <p>08.00 - 10.00</p>
-                                </div>
-                                <div class="d-flex align-items-center mb-1">
-                                    <i class="fas fa-chalkboard-user me-3"></i>
-                                    <p>Ruang Teori 16</p>
-                                </div>
-                                <div class="d-flex align-items-center mb-1">
-                                    <i class="fas fa-graduation-cap me-3"></i>
-                                    <p>Bahasa Indonesia</p>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-end flex-wrap">
-                                <button class="btn btn-white btn-sm d-flex align-items-center rounded-pill bg-green-dark text-white mb-1 me-1">
-                                    <i class="fas fa-out me-2"></i>
-                                    <p>Beri Pengingat Tugas</p>
-                                </button>
-                                <button class="btn btn-white btn-sm d-flex align-items-center rounded-pill bg-green-dark text-white mb-1 me-1">
-                                    <i class="fas fa-out me-2"></i>
-                                    <p>Hubungi Ketua Kelas</p>
-                                </button>
+                        <div class="p-3">
+                            <p class="mb-2 fw-bold">Presensi Hadir</p>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-location-pin me-3"></i>
+                                <p>Wanaherang 16965, West Java, Indonesia</p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="card border-0 bg-green-dark p-3 mb-2">
-            <h5 class="mb-3 text-white fs-6">Presensi Kemarin</h5>
-            <div class="card border-0 w-full mb-2 text-bg-success">
-                <div class="d-flex">
-                    <div class="d-flex align-items-center p-4">
-                        <p>7.00</p>
-                    </div>
-                    <div class="vr"></div>
-                    <div class="p-3">
-                        <p class="mb-2 fw-bold">Presensi Hadir</p>
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-location-pin me-3"></i>
-                            <p>Wanaherang 16965, West Java, Indonesia</p>
+                <div class="card border-0 w-full mb-2 text-bg-success">
+                    <div class="d-flex">
+                        <div class="d-flex align-items-center p-4">
+                            <p><?php echo date("H:i:s", strtotime($rs['timeend'])) ?></p>
+                        </div>
+                        <div class="vr"></div>
+                        <div class="p-3">
+                            <p class="mb-2 fw-bold">Presensi Keluar</p>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-location-pin me-3"></i>
+                                <p>Wanaherang 16965, West Java, Indonesia</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="card border-0 w-full mb-2 text-bg-success">
-                <div class="d-flex">
-                    <div class="d-flex align-items-center p-4">
-                        <p>16.00</p>
-                    </div>
-                    <div class="vr"></div>
-                    <div class="p-3">
-                        <p class="mb-2 fw-bold">Presensi Keluar</p>
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-location-pin me-3"></i>
-                            <p>Wanaherang 16965, West Java, Indonesia</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
     </div>
     

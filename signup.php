@@ -17,8 +17,8 @@ if (isset($_SESSION['user'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>Sign-In E-Presence SKIEL</title>
-    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/style.css">
 </head>
 <body class="text-center">
     <main class="form-signin w-100 m-auto">
@@ -29,7 +29,7 @@ if (isset($_SESSION['user'])) {
               unset($_SESSION['message']['danger']);
           }
           ?>
-        <img class="mb-4" src="../assets/images/logo-sekolah.png" style="width: 90px">
+        <img class="mb-4" src="./assets/images/logo-sekolah.png" style="width: 90px">
         <h1 class="h3 mb-3 fw-normal">Pendaftaran Pengguna Baru</h1>
         <div class="form-floating pb-3">
             <input name="add_user" value="1" hidden>
@@ -67,8 +67,8 @@ if (isset($_SESSION['user'])) {
     </main>
     </body>
 
-    <script src="../assets/fontawesome/all.min.js"></script>
-    <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/popper/popper.min.js"></script>
-    <script src="../assets/script.js"></script>
+    <script src="./assets/fontawesome/all.min.js"></script>
+    <script src="./assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/popper/popper.min.js"></script>
+    <script src="./assets/script.js"></script>
 </html>

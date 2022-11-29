@@ -16,8 +16,8 @@ if (isset($_SESSION['user'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign-In E-Presence SKIEL</title>
-    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/style.css">
 </head>
 <body class="text-center">
     
@@ -29,7 +29,7 @@ if (isset($_SESSION['user'])) {
               unset($_SESSION['message']['danger']);
           }
           ?>
-        <img class="mb-4" src="../assets/images/logo-sekolah.png" style="width: 90px">
+        <img class="mb-4" src="./assets/images/logo-sekolah.png" style="width: 90px">
         <h1 class="h3 mb-3 fw-normal">Masuk Aplikasi</h1>
           <input type="text" name="signin" value="1" hidden>
         <div class="form-floating pb-3">
@@ -57,8 +57,8 @@ if (isset($_SESSION['user'])) {
       
     
     </body>
-<script src="../assets/fontawesome/all.min.js"></script>
-    <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/popper/popper.min.js"></script>
-    <script src="../assets/script.js"></script>
+<script src="./assets/fontawesome/all.min.js"></script>
+    <script src="./assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/popper/popper.min.js"></script>
+    <script src="./assets/script.js"></script>
 </html>

@@ -1,2 +1,2 @@
 <?php
-header('Location: ./admin/pages/index.php');
+header('Location: ./admin/pages/presence.php');

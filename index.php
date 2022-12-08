@@ -126,7 +126,7 @@
                 $currenttime = date("H:i:s", strtotime($currentdatetime));
 
                 $querydate = date('w', strtotime($currentdatetime));
-                $query_schedule = "SELECT class.name AS class, class.room AS room, teacher.name AS teacher, subjects.name AS subject, schedule.timestart, schedule.timeend FROM schedule INNER JOIN teacher_subject ON schedule.teacher_subject_id = teacher_subject.id INNER JOIN teacher ON teacher.id = teacher_subject.teacher_id INNER JOIN user ON user.teacher_id = teacher.id INNER JOIN class ON schedule.class_id = class.id INNER JOIN subjects ON subjects.id = teacher_subject.subject_id WHERE schedule.day = '1' AND schedule.timestart <= '$currenttime' AND schedule.timeend >= '$currenttime' AND user.id = 1";
+                $query_schedule = "SELECT class.name AS class, class.room AS room, teacher.name AS teacher, subjects.name AS subject, schedule.timestart, schedule.timeend FROM schedule INNER JOIN teacher_subject ON schedule.teacher_subject_id = teacher_subject.id INNER JOIN teacher ON teacher.id = teacher_subject.teacher_id INNER JOIN user ON user.teacher_id = teacher.id INNER JOIN class ON schedule.class_id = class.id INNER JOIN subjects ON subjects.id = teacher_subject.subject_id WHERE schedule.day = '$querydate' AND schedule.timestart <= '$currenttime' AND schedule.timeend >= '$currenttime' AND user.id = $userid";
                 $stmt_schedule = $db->prepare($query_schedule);
                 $stmt_schedule->execute();
                 $result_schedule = $stmt_schedule->fetchAll(PDO::FETCH_ASSOC);

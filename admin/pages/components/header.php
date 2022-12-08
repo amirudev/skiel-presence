@@ -115,13 +115,6 @@ if (isset($urls[3])) {
             <ul class="menu">
               <li class="sidebar-title">Menu</li>
 
-              <li class="sidebar-item <?php echo ($active == 'index.php') ? 'active' : 'not-active' ?>">
-                <a href="/admin/pages/index.php" class="sidebar-link">
-                  <i class="bi bi-grid-fill"></i>
-                  <span>Dashboard</span>
-                </a>
-              </li>
-
               <li class="sidebar-item <?php echo ($active == 'presence.php') ? 'active' : 'not-active' ?>">
                 <a href="/admin/pages/presence.php" class="sidebar-link">
                   <i class="bi bi-grid-fill"></i>

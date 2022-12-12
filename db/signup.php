@@ -59,8 +59,13 @@ if(!isset($_POST['add_user'])) {
                     'email' => $email,
                     'role' => $role,
                 );
+
+                if ($role == 'admin') {
+                    header("Location: ../admin");
+                } else {
+                    header("Location: ../index.php");
+                }
     
-                header("Location: ../index.php");
             } else {
                 if ($role == 'teacher') {
                     $query_emergency = "DELETE FROM teacher WHERE id = :inserted_id";

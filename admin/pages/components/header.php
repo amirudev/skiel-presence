@@ -43,8 +43,7 @@ if (isset($urls[3])) {
             <div class="d-flex justify-content-between align-items-center">
               <div class="logo">
                 <a href="index.html"
-                  ><img src="../../assets/images/logo/logo.svg" alt="Logo" srcset=""
-                /></a>
+                  ><img src="/assets/images/logo-sekolah.png" alt="Logo" srcset="" style="width: 50px;" /></a>
               </div>
               <div class="theme-toggle d-flex gap-2 align-items-center mt-2">
                 <svg
